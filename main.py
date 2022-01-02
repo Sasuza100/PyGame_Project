@@ -5,6 +5,7 @@ screen = pygame.display.set_mode((840, 640))
 screen_rect = screen.get_rect()
 
 l_player = pygame.Rect(10, 10, 10, 250)
+
 r_player = pygame.Rect(820, 10, 10, 250)
 ball = pygame.circle
 
