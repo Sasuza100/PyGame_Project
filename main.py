@@ -51,7 +51,7 @@ screen_rect = screen.get_rect()
 # horizontal
 Border(5, 5, width - 5, 5)
 Border(5, height - 5, width - 5, height - 5)
-Border()
+
 
 
 for i in range(1):
@@ -72,7 +72,8 @@ while run:
     if keys[pygame.K_UP]: r_player.move_ip(0, -5)
     if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
-
+    Border(10, l_player.top, 10, l_player.top + 250)
+    Border(820, r_player.top, 820, r_player.top + 250)
     screen.fill((0, 0, 0))
     all_sprites.draw(screen)
     all_sprites.update()
