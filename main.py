@@ -73,7 +73,8 @@ while run:
     if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
     Border(10, l_player.top, 10, l_player.top + 250)
-    Border(820, r_player.top, 820, r_player.top + 250)
+    Border(820, r_player.top, 820, r_player.top + 250)#питон лох
+
     screen.fill((0, 0, 0))
     all_sprites.draw(screen)
     all_sprites.update()
