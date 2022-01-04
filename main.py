@@ -9,6 +9,7 @@ r_player = pygame.Rect(820, 10, 10, 250)
 
 
 class Ball(pygame.sprite.Sprite):
+
     def __init__(self, radius, x, y):
         super().__init__(all_sprites)
         self.radius = radius
@@ -17,6 +18,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = random.randint(-5, 5)
         self.vy = random.randrange(-5, 5)
+        self.l_player_count = 0
+        self.r_player_count = 0
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
@@ -26,12 +29,14 @@ class Ball(pygame.sprite.Sprite):
             self.vx = -self.vx
 
         if self.rect.centerx > 840:
-            print('+1 l')
-            self.rect.move(420, 320)
+            self.l_player_count += 1
+            self.rect.centerx = 420
+
         if self.rect.centerx < 0:
-            print('+1 r')
-            self.rect.move(420, 320)
-        print(self.rect.centerx)
+            self.r_player_count += 1
+            self.rect.centerx = 420
+        print(self.l_player_count, self.r_player_count)
+
 
 
 class Border(pygame.sprite.Sprite):
