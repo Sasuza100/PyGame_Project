@@ -32,6 +32,8 @@ class Ball(pygame.sprite.Sprite):
             print('+1 r')
             self.rect.move(420, 320)
         print(self.rect.centerx)
+
+
 class Border(pygame.sprite.Sprite):
     def __init__(self, x1, y1, x2, y2):
         super().__init__(all_sprites)
@@ -47,8 +49,6 @@ class Border(pygame.sprite.Sprite):
             self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
 
 
-
-
 all_sprites = pygame.sprite.Group()
 
 horizontal_borders = pygame.sprite.Group()
@@ -58,8 +58,6 @@ size = width, height = 840, 640
 screen = pygame.display.set_mode(size)
 screen_rect = screen.get_rect()
 # horizontal
-
-
 
 
 for i in range(1):
