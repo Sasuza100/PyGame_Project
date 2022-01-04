@@ -12,7 +12,6 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, radius, x, y):
         super().__init__(all_sprites)
         self.radius = radius
-        self.radius = radius
         self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
         pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
@@ -30,17 +29,17 @@ class Ball(pygame.sprite.Sprite):
 class Border(pygame.sprite.Sprite):
     def __init__(self, x1, y1, x2, y2):
         super().__init__(all_sprites)
+        self.kill()
         if x1 == x2:
             self.add(vertical_borders)
             self.image = pygame.Surface([1, y2 - y1])
             self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
+
         else:
             self.add(horizontal_borders)
             self.image = pygame.Surface([x2 - x1, 1])
             self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
-    def remove_(self):
-        self.remove(vertical_borders)
-        self.remove(horizontal_borders)
+
 
 
 
@@ -75,11 +74,14 @@ while run:
     if keys[pygame.K_UP]: r_player.move_ip(0, -5)
     if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
-    Border(5, 5, width - 5, 5)
-    Border(5, height - 5, width - 5, height - 5)
-    all_sprites.remove()
+    horizontal_borders = None
+    vertical_borders = None
+    horizontal_borders = pygame.sprite.Group()
+    vertical_borders = pygame.sprite.Group()
     Border(20, l_player.top, 20, l_player.top + 250)
     Border(820, r_player.top, 820, r_player.top + 250)
+    Border(5, 5, width - 5, 5)
+    Border(5, height - 5, width - 5, height - 5)
     print(l_player.top, r_player.top)
 
     screen.fill((0, 0, 0))
