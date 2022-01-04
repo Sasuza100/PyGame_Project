@@ -25,7 +25,13 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
 
-
+        if self.rect.centerx > 840:
+            print('+1 l')
+            self.rect.move(420, 320)
+        if self.rect.centerx < 0:
+            print('+1 r')
+            self.rect.move(420, 320)
+        print(self.rect.centerx)
 class Border(pygame.sprite.Sprite):
     def __init__(self, x1, y1, x2, y2):
         super().__init__(all_sprites)
@@ -65,12 +71,10 @@ run = True
 while run:
     for e in pygame.event.get():
         if e.type == pygame.QUIT: run = False
-
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]: l_player.move_ip(0, -5)
     if keys[pygame.K_s]: l_player.move_ip(0, 5)
     l_player.clamp_ip(screen_rect)
-
     if keys[pygame.K_UP]: r_player.move_ip(0, -5)
     if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
@@ -82,7 +86,6 @@ while run:
     Border(820, r_player.top, 820, r_player.top + 250)
     Border(5, 5, width - 5, 5)
     Border(5, height - 5, width - 5, height - 5)
-    print(l_player.top, r_player.top)
 
     screen.fill((0, 0, 0))
     all_sprites.draw(screen)
