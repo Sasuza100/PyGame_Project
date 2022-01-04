@@ -35,7 +35,10 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.rect.centerx = 420
-        print(self.l_player_count, self.r_player_count)
+        font = pygame.font.Font(None, 50)
+        text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
+        text_x = width // 2 - text.get_width() // 2
+        screen.blit(text, (text_x, 20))
 
 
 
