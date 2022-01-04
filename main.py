@@ -38,6 +38,10 @@ class Border(pygame.sprite.Sprite):
             self.add(horizontal_borders)
             self.image = pygame.Surface([x2 - x1, 1])
             self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
+    def remove_(self):
+        self.remove(vertical_borders)
+        self.remove(horizontal_borders)
+
 
 
 all_sprites = pygame.sprite.Group()
@@ -49,8 +53,7 @@ size = width, height = 840, 640
 screen = pygame.display.set_mode(size)
 screen_rect = screen.get_rect()
 # horizontal
-Border(5, 5, width - 5, 5)
-Border(5, height - 5, width - 5, height - 5)
+
 
 
 
@@ -72,8 +75,12 @@ while run:
     if keys[pygame.K_UP]: r_player.move_ip(0, -5)
     if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
-    Border(10, l_player.top, 10, l_player.top + 250)
-    Border(820, r_player.top, 820, r_player.top + 250)#питон лох
+    Border(5, 5, width - 5, 5)
+    Border(5, height - 5, width - 5, height - 5)
+    all_sprites.remove()
+    Border(20, l_player.top, 20, l_player.top + 250)
+    Border(820, r_player.top, 820, r_player.top + 250)
+    print(l_player.top, r_player.top)
 
     screen.fill((0, 0, 0))
     all_sprites.draw(screen)
