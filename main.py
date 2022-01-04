@@ -1,4 +1,3 @@
-import pygame
 import random
 import pygame
 
@@ -16,8 +15,8 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
         pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
-        self.vx = random.randint(-5, 5)
-        self.vy = random.randrange(-5, 5)
+        self.vx = random.randint(-10, 10)
+        self.vy = random.randrange(-10, 10)
         self.l_player_count = 0
         self.r_player_count = 0
 
@@ -35,11 +34,11 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.rect.centerx = 420
+
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
         text_x = width // 2 - text.get_width() // 2
         screen.blit(text, (text_x, 20))
-
 
 
 class Border(pygame.sprite.Sprite):
@@ -65,7 +64,6 @@ vertical_borders = pygame.sprite.Group()
 size = width, height = 840, 640
 screen = pygame.display.set_mode(size)
 screen_rect = screen.get_rect()
-# horizontal
 
 
 for i in range(1):
@@ -75,6 +73,7 @@ clock = pygame.time.Clock()
 
 run = True
 while run:
+    screen.fill((0, 0, 0))
     for e in pygame.event.get():
         if e.type == pygame.QUIT: run = False
     keys = pygame.key.get_pressed()
@@ -93,7 +92,6 @@ while run:
     Border(5, 5, width - 5, 5)
     Border(5, height - 5, width - 5, height - 5)
 
-    screen.fill((0, 0, 0))
     all_sprites.draw(screen)
     all_sprites.update()
     clock.tick(50)
