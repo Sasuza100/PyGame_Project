@@ -30,13 +30,17 @@ def start_screen():
         screen.blit(string_rendered, intro_rect)
 
     clock = pygame.time.Clock()
+    speed = 1
     while True:
         for event in pygame.event.get():
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_UP]: speed += 1
+            if keys[pygame.K_DOWN]: speed -= 1
             if event.type == pygame.QUIT:
                 terminate()
             elif event.type == pygame.KEYDOWN or \
                     event.type == pygame.MOUSEBUTTONDOWN:
-                return  # начинаем игру
+                return speed
         pygame.display.flip()
         clock.tick(60)
 
