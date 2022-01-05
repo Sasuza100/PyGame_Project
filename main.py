@@ -1,11 +1,13 @@
 import random
 import pygame
+from start_screen import *
 
 pygame.init()
 
 l_player = pygame.Rect(10, 10, 10, 180)
 r_player = pygame.Rect(820, 10, 10, 180)
 
+start_screen()
 
 class Ball(pygame.sprite.Sprite):
 
@@ -31,11 +33,13 @@ class Ball(pygame.sprite.Sprite):
             self.l_player_count += 1
             self.rect.centerx = 420
             self.rect.centery = 320
+            self.vy = -self.vy
 
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.rect.centerx = 420
             self.rect.centery = 320
+            self.vy = -self.vy
 
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
