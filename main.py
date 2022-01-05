@@ -1,5 +1,4 @@
 import random
-import pygame
 from start_screen import *
 
 pygame.init()

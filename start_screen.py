@@ -3,10 +3,12 @@ import sys
 import pygame
 
 pygame.init()
+screen = pygame.display.set_mode((840, 640))
 
 def terminate():
     pygame.quit()
     sys.exit()
+
 
 def start_screen():
     intro_text = ["ЗАСТАВКА", "",
@@ -14,7 +16,7 @@ def start_screen():
                   "Если в правилах несколько строк,",
                   "приходится выводить их построчно"]
 
-    fon = pygame.transform.scale(load_image('fon.png'), (840, 640))
+    fon = pygame.transform.scale(load_image('fon.jpg'), (840, 640))
     screen.blit(fon, (0, 0))
     font = pygame.font.Font(None, 30)
     text_coord = 50
@@ -27,6 +29,7 @@ def start_screen():
         text_coord += intro_rect.height
         screen.blit(string_rendered, intro_rect)
 
+    clock = pygame.time.Clock()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -36,6 +39,7 @@ def start_screen():
                 return  # начинаем игру
         pygame.display.flip()
         clock.tick(60)
+
 
 def load_image(name, color_key=None):
     fullname = os.path.join('data', name)
