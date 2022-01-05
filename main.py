@@ -3,8 +3,8 @@ import pygame
 
 pygame.init()
 
-l_player = pygame.Rect(10, 10, 10, 250)
-r_player = pygame.Rect(820, 10, 10, 250)
+l_player = pygame.Rect(10, 10, 10, 180)
+r_player = pygame.Rect(820, 10, 10, 180)
 
 
 class Ball(pygame.sprite.Sprite):
@@ -30,10 +30,12 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx > 840:
             self.l_player_count += 1
             self.rect.centerx = 420
+            self.rect.centery = 320
 
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.rect.centerx = 420
+            self.rect.centery = 320
 
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
@@ -42,6 +44,7 @@ class Ball(pygame.sprite.Sprite):
 
 
 class Border(pygame.sprite.Sprite):
+
     def __init__(self, x1, y1, x2, y2):
         super().__init__(all_sprites)
         self.kill()
@@ -49,7 +52,6 @@ class Border(pygame.sprite.Sprite):
             self.add(vertical_borders)
             self.image = pygame.Surface([1, y2 - y1])
             self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
-
         else:
             self.add(horizontal_borders)
             self.image = pygame.Surface([x2 - x1, 1])
@@ -64,7 +66,6 @@ vertical_borders = pygame.sprite.Group()
 size = width, height = 840, 640
 screen = pygame.display.set_mode(size)
 screen_rect = screen.get_rect()
-
 
 for i in range(1):
     Ball(20, 100, 100)
@@ -87,8 +88,8 @@ while run:
     vertical_borders = None
     horizontal_borders = pygame.sprite.Group()
     vertical_borders = pygame.sprite.Group()
-    Border(20, l_player.top, 20, l_player.top + 250)
-    Border(820, r_player.top, 820, r_player.top + 250)
+    Border(20, l_player.top, 20, l_player.top + 180)
+    Border(820, r_player.top, 820, r_player.top + 180)
     Border(5, 5, width - 5, 5)
     Border(5, height - 5, width - 5, height - 5)
 
