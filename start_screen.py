@@ -5,12 +5,14 @@ import pygame
 pygame.init()
 screen = pygame.display.set_mode((840, 640))
 
+
 def terminate():
     pygame.quit()
     sys.exit()
 
 
 def start_screen():
+    # Создание экрана
     intro_text = ["ЗАСТАВКА", "",
                   "Правила игры",
                   "Если в правилах несколько строк,",
