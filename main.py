@@ -80,14 +80,21 @@ clock = pygame.time.Clock()
 run = True
 while run:
     screen.fill((0, 0, 0))
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT: run = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]: l_player.move_ip(0, -5)
-    if keys[pygame.K_s]: l_player.move_ip(0, 5)
+
+    if keys[pygame.K_w]:
+        l_player.move_ip(0, -5)
+    if keys[pygame.K_s]:
+        l_player.move_ip(0, 5)
     l_player.clamp_ip(screen_rect)
-    if keys[pygame.K_UP]: r_player.move_ip(0, -5)
-    if keys[pygame.K_DOWN]: r_player.move_ip(0, 5)
+    if keys[pygame.K_UP]:
+        r_player.move_ip(0, -5)
+    if keys[pygame.K_DOWN]:
+        r_player.move_ip(0, 5)
     r_player.clamp_ip(screen_rect)
     horizontal_borders = None
     vertical_borders = None
