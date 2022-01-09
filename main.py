@@ -1,6 +1,4 @@
 import random
-
-import start_screen
 from start_screen import *
 
 pygame.init()
@@ -8,7 +6,7 @@ pygame.init()
 l_player = pygame.Rect(10, 10, 10, 180)
 r_player = pygame.Rect(820, 10, 10, 180)
 
-sped = start_screen()
+start_screen()
 
 class Ball(pygame.sprite.Sprite):
 
@@ -18,8 +16,8 @@ class Ball(pygame.sprite.Sprite):
         self.image = pygame.Surface((2 * radius, 2 * radius), pygame.SRCALPHA, 32)
         pygame.draw.circle(self.image, pygame.Color("red"), (radius, radius), radius)
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
-        self.vx = sped
-        self.vy = sped
+        self.vx = random.randint(-10, 10)
+        self.vy = random.randrange(-10, 10)
         self.l_player_count = 0
         self.r_player_count = 0
 
