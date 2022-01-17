@@ -34,8 +34,8 @@ def start_screen():
     while True:
         for event in pygame.event.get():
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_UP]: speed += 1
-            if keys[pygame.K_DOWN]: speed -= 1
+            if keys[pygame.K_UP]: speed += 1  # new string
+            if keys[pygame.K_DOWN]: speed -= 1  # new string
             if event.type == pygame.QUIT:
                 terminate()
             elif event.type == pygame.KEYDOWN or \
