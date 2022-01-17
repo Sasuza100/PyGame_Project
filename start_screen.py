@@ -5,12 +5,12 @@ import pygame
 pygame.init()
 screen = pygame.display.set_mode((840, 640))
 
+
 def terminate():
     pygame.quit()
     sys.exit()
 
-
-def start_screen():
+def draw_text(screen):
     intro_text = ["ЗАСТАВКА", "",
                   "Правила игры",
                   "Если в правилах несколько строк,",
@@ -29,18 +29,38 @@ def start_screen():
         text_coord += intro_rect.height
         screen.blit(string_rendered, intro_rect)
 
+def draw_speed(screen, speed):
+    intro_text = f"Текущая скорость {speed}"
+
+    font = pygame.font.Font(None, 30)
+    text_coord = 300
+    string_rendered = font.render(intro_text, 1, pygame.Color('white'))
+    intro_rect = string_rendered.get_rect()
+    intro_rect.top = text_coord
+    intro_rect.x = 10
+    text_coord += intro_rect.height
+    screen.blit(string_rendered, intro_rect)
+
+def start_screen():
+    # Создание экрана
+
+
     clock = pygame.time.Clock()
     speed = 1
     while True:
         for event in pygame.event.get():
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_UP]: speed += 1
-            if keys[pygame.K_DOWN]: speed -= 1
             if event.type == pygame.QUIT:
                 terminate()
-            elif event.type == pygame.KEYDOWN or \
-                    event.type == pygame.MOUSEBUTTONDOWN:
-                return speed
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    speed += 1
+                elif event.key == pygame.K_DOWN:
+                    speed -= 1
+                elif event.key == pygame.K_SPACE:
+                    return speed
+        pygame.Color("black")
+        draw_text(screen)
+        draw_speed(screen, speed)
         pygame.display.flip()
         clock.tick(60)
 
