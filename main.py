@@ -30,20 +30,29 @@ class Ball(pygame.sprite.Sprite):
 
         if self.rect.centerx > 840:
             self.l_player_count += 1
+            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+                self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
 
         if self.rect.centerx < 0:
             self.r_player_count += 1
+            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+                self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
+
+
 
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
         text_x = width // 2 - text.get_width() // 2
         screen.blit(text, (text_x, 20))
+
+
+
 
 
 class Border(pygame.sprite.Sprite):
