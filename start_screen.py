@@ -42,9 +42,7 @@ def draw_speed(screen, speed):
     screen.blit(string_rendered, intro_rect)
 
 def start_screen():
-    # Создание экрана
-
-
+    """Создание экрана"""
     clock = pygame.time.Clock()
     speed = 1
     while True:
@@ -62,7 +60,7 @@ def start_screen():
         draw_text(screen)
         draw_speed(screen, speed)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(50)
 
 
 def load_image(name, color_key=None):

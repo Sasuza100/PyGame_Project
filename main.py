@@ -1,4 +1,5 @@
 from start_screen import *
+from PIL import Image
 
 pygame.init()
 
@@ -34,31 +35,31 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
         self.time_count = fps_count / 50
-        if self.r_player_points >= 3 and keys[pygame.K_p] and self.time_count >= 3:
+        if self.r_player_points >= 3 and keys[pygame.K_p]:
             self.r_player_points -= 3
             self.time_count = 0
             fps_count = 0
-            self.vy = self.vy * 4
-            self.vx = self.vx * 4
-        if self.l_player_points >= 3 and keys[pygame.K_q] and self.time_count >= 3:
+            self.vy = self.vy * 1.7
+            self.vx = self.vx * 1.7
+            if self.time_count == 3:
+                self.vy = self.vy / 1.7
+                self.vx = self.vx / 1.7
+
+        if self.l_player_points >= 3 and keys[pygame.K_q]:
             self.l_player_points -= 3
             self.time_count = 0
             fps_count = 0
-            self.vy = self.vy * 4
-            self.vx = self.vx * 4
-
-        if self.time_count == 0:
-            self.vx = self.vx / 4
-            self.vy = self.vy / 4
+            self.vy = self.vy * 1.7
+            self.vx = self.vx * 1.7
+            if self.time_count == 3:
+                self.vy = self.vy / 1.7
+                self.vx = self.vx / 1.7
 
         print(self.vx, self.vy)
 
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
             self.l_player_count += 1
-            if (
-                    self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
-                self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
@@ -66,9 +67,6 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.r_player_points += 0.5
-            if (
-                    self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
-                self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
@@ -116,6 +114,7 @@ for i in range(1):
 clock = pygame.time.Clock()
 
 fps_count = 0
+
 run = True
 while run:
 
