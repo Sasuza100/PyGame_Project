@@ -35,7 +35,7 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
         self.time_count = fps_count / 50
-        if self.r_player_points >= 3 and keys[pygame.K_p]:
+        if self.r_player_points >= 3 and keys[pygame.K_p]:  # Если у игрока есть 3 очка, то он может использовать ускорение(на 3 секунды)
             self.r_player_points -= 3
             self.time_count = 0
             fps_count = 0
