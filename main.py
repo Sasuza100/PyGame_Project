@@ -53,15 +53,17 @@ class Ball(pygame.sprite.Sprite):
             self.vy = -self.vy
 
 
-
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
         text_x = width // 2 - text.get_width() // 2
         screen.blit(text, (text_x, 20))
 
-
-
-
+        point_l = font.render(f'{str(self.l_player_points)}', True, (0, 103, 126))
+        point_l_coord = width // 13 - point_l.get_width() // 13
+        screen.blit(point_l, (point_l_coord, 20))
+        point_r = font.render(f'{str(self.r_player_points)}', True, (0, 168, 107))
+        point_r_coord = width // 1.08 - point_r.get_width() // 1.08
+        screen.blit(point_r, (point_r_coord, 20))
 
 class Border(pygame.sprite.Sprite):
 
