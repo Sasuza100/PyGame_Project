@@ -7,6 +7,7 @@ r_player = pygame.Rect(820, 10, 10, 180)
 
 x_v = start_screen()
 
+
 class Ball(pygame.sprite.Sprite):
 
     def __init__(self, radius, x, y):
@@ -17,27 +18,46 @@ class Ball(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = x_v
         self.vy = x_v + 1
+        self.old_vx = self.vx
+        self.old_vy = self.vy
         self.r_player_points = 0
         self.l_player_points = 0
         self.l_player_count = 0
         self.r_player_count = 0
+        self.time_count = 0.0001
 
     def update(self):
+        global fps_count
         self.rect = self.rect.move(self.vx, self.vy)
         if pygame.sprite.spritecollideany(self, horizontal_borders):
             self.vy = -self.vy
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
-
-        if self.r_player_points == 3:
+        self.time_count = fps_count / 50
+        if self.r_player_points >= 3 and keys[pygame.K_p] and self.time_count >= 3:
             self.r_player_points -= 3
+            self.time_count = 0
+            fps_count = 0
+            self.vy = self.vy * 4
+            self.vx = self.vx * 4
+        if self.l_player_points >= 3 and keys[pygame.K_q] and self.time_count >= 3:
+            self.l_player_points -= 3
+            self.time_count = 0
+            fps_count = 0
+            self.vy = self.vy * 4
+            self.vx = self.vx * 4
 
+        if self.time_count == 0:
+            self.vx = self.vx / 4
+            self.vy = self.vy / 4
 
+        print(self.vx, self.vy)
 
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
             self.l_player_count += 1
-            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+            if (
+                    self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
@@ -46,12 +66,12 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.r_player_points += 0.5
-            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+            if (
+                    self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 self.vx = self.vx * 1.5
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
-
 
         font = pygame.font.Font(None, 50)
         text = font.render(f'{str(self.l_player_count)} : {str(self.r_player_count)}', True, (255, 255, 255))
@@ -64,6 +84,7 @@ class Ball(pygame.sprite.Sprite):
         point_r = font.render(f'{str(self.r_player_points)}', True, (0, 168, 107))
         point_r_coord = width // 1.08 - point_r.get_width() // 1.08
         screen.blit(point_r, (point_r_coord, 20))
+
 
 class Border(pygame.sprite.Sprite):
 
@@ -94,8 +115,10 @@ for i in range(1):
 
 clock = pygame.time.Clock()
 
+fps_count = 0
 run = True
 while run:
+
     screen.fill((0, 0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -127,4 +150,5 @@ while run:
     clock.tick(50)
     pygame.draw.rect(screen, (255, 255, 255), l_player)
     pygame.draw.rect(screen, (255, 255, 255), r_player)
+    fps_count += 1
     pygame.display.flip()
