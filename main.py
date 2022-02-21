@@ -91,7 +91,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-
+    keys = pygame.key.get_pressed()
 
     if keys[pygame.K_w]:
         l_player.move_ip(0, -5)
