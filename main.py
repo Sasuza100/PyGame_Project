@@ -1,4 +1,3 @@
-import random
 from start_screen import *
 
 pygame.init()
@@ -18,6 +17,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = x_v
         self.vy = x_v + 1
+        self.r_player_points = 0
+        self.l_player_points = 0
         self.l_player_count = 0
         self.r_player_count = 0
 
@@ -28,7 +29,13 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
 
+        if self.r_player_points == 3:
+            self.r_player_points -= 3
+
+
+
         if self.rect.centerx > 840:
+            self.l_player_points += 0.5
             self.l_player_count += 1
             if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 self.vx = self.vx * 1.5
@@ -38,6 +45,7 @@ class Ball(pygame.sprite.Sprite):
 
         if self.rect.centerx < 0:
             self.r_player_count += 1
+            self.r_player_points += 0.5
             if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 self.vx = self.vx * 1.5
             self.rect.centerx = 420
