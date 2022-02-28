@@ -28,6 +28,7 @@ class Ball(pygame.sprite.Sprite):
 
     def update(self):
         global fps_count
+        self.flag = False
         self.rect = self.rect.move(self.vx, self.vy)
         if pygame.sprite.spritecollideany(self, horizontal_borders):
             self.vy = -self.vy
@@ -40,9 +41,11 @@ class Ball(pygame.sprite.Sprite):
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            if self.time_count == 3:
-                self.vy = self.vy / 1.7
-                self.vx = self.vx / 1.7
+            self.flag = True
+        if self.time_count == 3 and self.flag:
+            self.vy = self.vy / 1.7
+            self.vx = self.vx / 1.7
+            self.flag = False
 
         if self.l_player_points >= 3 and keys[pygame.K_q]:
             self.l_player_points -= 3
@@ -50,9 +53,11 @@ class Ball(pygame.sprite.Sprite):
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            if self.time_count == 3:
-                self.vy = self.vy / 1.7
-                self.vx = self.vx / 1.7
+            self.flag = True
+        if self.time_count == 3 and self.flag:
+            self.vy = self.vy / 1.7
+            self.vx = self.vx / 1.7
+            self.flag = False
 
         print(self.vx, self.vy)
 
