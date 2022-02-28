@@ -1,4 +1,7 @@
+import pygame.transform
+
 from start_screen import *
+
 
 pygame.init()
 
@@ -91,6 +94,24 @@ class Ball(pygame.sprite.Sprite):
         point_r = font.render(f'{str(self.r_player_points)}', True, (0, 168, 107))
         point_r_coord = width // 1.08 - point_r.get_width() // 1.08
         screen.blit(point_r, (point_r_coord, 20))
+
+        # усиления для левого игрока
+        buff1_l = load_image('rocket_b_w.png')
+        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
+        screen.blit(buff1_l_scale, ((width / 3), 10))
+
+        buff1_l = load_image('racket_b_w.png')
+        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
+        screen.blit(buff1_l_scale, ((width / 3.7), 10))
+
+        # усиления для правого игрока
+        buff1_r = load_image('rocket_b_w.png')
+        buff1_r_scale = pygame.transform.scale(buff1_r, (75, 50))
+        screen.blit(buff1_r_scale, ((width / 1.75), 10))
+
+        buff1_l = load_image('racket_b_w.png')
+        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
+        screen.blit(buff1_l_scale, ((width / 1.58), 10))
 
 
 class Border(pygame.sprite.Sprite):
