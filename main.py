@@ -42,7 +42,7 @@ class Ball(pygame.sprite.Sprite):
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
             self.flag = True
-        if self.time_count == 3 and self.flag:
+        if self.time_count >= 3 and self.flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
             self.flag = False
@@ -54,7 +54,7 @@ class Ball(pygame.sprite.Sprite):
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
             self.flag = True
-        if self.time_count == 3 and self.flag:
+        if self.time_count >= 3 and self.flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
             self.flag = False
