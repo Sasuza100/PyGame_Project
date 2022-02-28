@@ -25,15 +25,20 @@ class Ball(pygame.sprite.Sprite):
         self.l_player_count = 0
         self.r_player_count = 0
         self.time_count = 0.0001
+        self.r_flag = False
+        self.l_flag = False
 
     def update(self):
         global fps_count
-        self.flag = False
         self.rect = self.rect.move(self.vx, self.vy)
+
+
         if pygame.sprite.spritecollideany(self, horizontal_borders):
             self.vy = -self.vy
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
+
+
         self.time_count = fps_count / 50
         if self.r_player_points >= 3 and keys[pygame.K_p]:  # Если у игрока есть 3 очка, то он может использовать ускорение(на 3 секунды)
             self.r_player_points -= 3
@@ -41,11 +46,12 @@ class Ball(pygame.sprite.Sprite):
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            self.flag = True
-        if self.time_count >= 3 and self.flag:
+            self.r_flag = True
+        if self.time_count >= 3 and self.r_flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
-            self.flag = False
+            self.r_flag = False
+
 
         if self.l_player_points >= 3 and keys[pygame.K_q]:
             self.l_player_points -= 3
@@ -53,13 +59,12 @@ class Ball(pygame.sprite.Sprite):
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            self.flag = True
-        if self.time_count >= 3 and self.flag:
+            self.l_flag = True
+        if self.time_count >= 3 and self.l_flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
-            self.flag = False
-
-        print(self.vx, self.vy)
+            self.l_flag = False
+        # print(abs(self.vx), abs(self.vy), self.l_flag, self.r_flag)
 
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
