@@ -1,4 +1,5 @@
 import pygame.transform
+import threading
 from start_screen import *
 from add_imgs import *
 
@@ -19,8 +20,6 @@ class Ball(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.vx = x_v
         self.vy = x_v + 1
-        self.old_vx = self.vx
-        self.old_vy = self.vy
         self.r_player_points = 0
         self.l_player_points = 0
         self.l_player_count = 0
@@ -32,7 +31,7 @@ class Ball(pygame.sprite.Sprite):
         self.l_flag = False
 
     def update(self):
-        global fps_count, fps_count2, r_rak_up, r_rak_down, l_rak_up, l_rak_down
+        global fps_count, fps_count2, r_rak_up, r_rak_down, l_rak_up, l_rak_down, run
         self.rect = self.rect.move(self.vx, self.vy)
 
 
@@ -47,8 +46,10 @@ class Ball(pygame.sprite.Sprite):
             self.r_player_points -= 3
             self.time_count = 0
             fps_count = 0
-            self.vy = self.vy * 1.7
-            self.vx = self.vx * 1.7
+            if self.vy <= 50:
+                self.vy = self.vy * 1.7
+            if self.vx <= 50:
+                self.vx = self.vx * 1.7
             self.r_b_flag = True
         if self.time_count >= 3 and self.r_b_flag:
             self.vy = self.vy / 1.7
@@ -60,8 +61,10 @@ class Ball(pygame.sprite.Sprite):
             self.l_player_points -= 3
             self.time_count = 0
             fps_count = 0
-            self.vy = self.vy * 1.7
-            self.vx = self.vx * 1.7
+            if self.vy <= 50:
+                self.vy = self.vy * 1.7
+            if self.vx <= 50:
+                self.vx = self.vx * 1.7
             self.l_b_flag = True
         if self.time_count >= 3 and self.l_b_flag:
             self.vy = self.vy / 1.7
@@ -77,7 +80,6 @@ class Ball(pygame.sprite.Sprite):
             fps_count2 = 0
             r_rak_up = -10
             r_rak_down = 10
-            self.vx = self.vx * 1.7
             self.r_flag = True
 
         if self.time_count2 >= 3 and self.r_flag:
@@ -143,6 +145,35 @@ class Ball(pygame.sprite.Sprite):
             buff_img_racket_bw_l()
         else:
             buff_img_racket_l()
+
+        if self.l_player_count >= 3:
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        terminate()
+                    elif event.type == pygame.KEYDOWN or \
+                            event.type == pygame.MOUSEBUTTONDOWN:
+                        # screen.fill((0, 0, 0))
+                        # point_r = font.render(f'Победил левый игрок! /n для продолжения нажмите любую кнопку', True, (0, 168, 107))
+                        # point_r_coord = width // 1.08 - point_r.get_width() // 1.08
+                        # screen.blit(point_r, (point_r_coord, 20))
+                        # print(1234)
+                        return terminate()
+        if self.r_player_count >= 3:
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        terminate()
+                    elif event.type == pygame.KEYDOWN or \
+                            event.type == pygame.MOUSEBUTTONDOWN:
+                        # screen.fill((0, 0, 0))
+                        # font = pygame.font.Font(None, 50)
+                        # text = font.render(f'asfafafafafs : asfafsfafawfsfwafsfaw', True,
+                        #                    (255, 255, 255))
+                        # text_x = width // 2 - text.get_width() // 2
+                        # screen.blit(text, (text_x, 20))
+                        # print(123)
+                        return terminate()
 
 
 

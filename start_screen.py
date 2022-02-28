@@ -10,11 +10,13 @@ def terminate():
     pygame.quit()
     sys.exit()
 
+
 def draw_text(screen):
-    intro_text = ["ЗАСТАВКА", "",
-                  "Правила игры",
-                  "Если в правилах несколько строк,",
-                  "приходится выводить их построчно"]
+    intro_text = ["PONG", "",
+                  "Левый игрок использует W и S для передвижения и Q и A для бафов",
+                  "Правый игрок использует стрелки для передвижения и P и L для бафов",
+                  "При достижении одним из игроков результата в 30 очков игра будет завершена",
+                  "Настройте скорость стрелками", "Для начала игры нажмите пробел"]
 
     fon = pygame.transform.scale(load_image('fon.jpg'), (840, 640))
     screen.blit(fon, (0, 0))
@@ -29,6 +31,7 @@ def draw_text(screen):
         text_coord += intro_rect.height
         screen.blit(string_rendered, intro_rect)
 
+
 def draw_speed(screen, speed):
     intro_text = f"Текущая скорость {speed}"
 
@@ -40,6 +43,7 @@ def draw_speed(screen, speed):
     intro_rect.x = 10
     text_coord += intro_rect.height
     screen.blit(string_rendered, intro_rect)
+
 
 def start_screen():
     """Создание экрана"""
