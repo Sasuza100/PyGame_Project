@@ -1,5 +1,4 @@
 from start_screen import *
-from PIL import Image
 
 pygame.init()
 
