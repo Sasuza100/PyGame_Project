@@ -1,7 +1,6 @@
 import pygame.transform
-
 from start_screen import *
-
+from add_imgs import *
 
 pygame.init()
 
@@ -9,7 +8,6 @@ l_player = pygame.Rect(10, 10, 10, 180)
 r_player = pygame.Rect(820, 10, 10, 180)
 
 x_v = start_screen()
-
 
 class Ball(pygame.sprite.Sprite):
 
@@ -28,11 +26,13 @@ class Ball(pygame.sprite.Sprite):
         self.l_player_count = 0
         self.r_player_count = 0
         self.time_count = 0.0001
+        self.r_b_flag = False
+        self.l_b_flag = False
         self.r_flag = False
         self.l_flag = False
 
     def update(self):
-        global fps_count
+        global fps_count, fps_count2, r_rak_up, r_rak_down, l_rak_up, l_rak_down
         self.rect = self.rect.move(self.vx, self.vy)
 
 
@@ -41,33 +41,65 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
 
-
+        # баф для шара
         self.time_count = fps_count / 50
-        if self.r_player_points >= 3 and keys[pygame.K_p]:  # Если у игрока есть 3 очка, то он может использовать ускорение(на 3 секунды)
+        if self.time_count >= 3 and self.r_player_points >= 3 and keys[pygame.K_p]:  # Если у игрока есть 3 очка, то он может использовать ускорение для шара(на 3 секунды)
             self.r_player_points -= 3
             self.time_count = 0
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            self.r_flag = True
-        if self.time_count >= 3 and self.r_flag:
+            self.r_b_flag = True
+        if self.time_count >= 3 and self.r_b_flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
-            self.r_flag = False
+            self.r_b_flag = False
 
 
-        if self.l_player_points >= 3 and keys[pygame.K_q]:
+        if self.time_count >= 3 and self.l_player_points >= 3 and keys[pygame.K_q]:
             self.l_player_points -= 3
             self.time_count = 0
             fps_count = 0
             self.vy = self.vy * 1.7
             self.vx = self.vx * 1.7
-            self.l_flag = True
-        if self.time_count >= 3 and self.l_flag:
+            self.l_b_flag = True
+        if self.time_count >= 3 and self.l_b_flag:
             self.vy = self.vy / 1.7
             self.vx = self.vx / 1.7
+            self.l_b_flag = False
+
+            #баф для ракетки
+
+        self.time_count2 = fps_count2 / 50
+        if self.time_count >= 3 and self.r_player_points >= 1.5 and keys[pygame.K_l]:
+            self.r_player_points -= 1.5
+            self.time_count2 = 0
+            fps_count2 = 0
+            r_rak_up = -10
+            r_rak_down = 10
+            self.vx = self.vx * 1.7
+            self.r_flag = True
+
+        if self.time_count2 >= 3 and self.r_flag:
+            r_rak_up = -5
+            r_rak_down = 5
+            self.r_flag = False
+
+        if self.time_count >= 3 and self.l_player_points >= 1.5 and keys[pygame.K_a]:
+            self.l_player_points -= 1.5
+            self.time_count2 = 0
+            fps_count2 = 0
+            l_rak_up = -10
+            l_rak_down = 10
+            self.l_flag = True
+        if self.time_count2 >= 3 and self.l_flag:
+            l_rak_up = -5
+            l_rak_down = 5
             self.l_flag = False
-        # print(abs(self.vx), abs(self.vy), self.l_flag, self.r_flag)
+
+
+
+        # print(abs(self.vx), abs(self.vy), self.l_flag, self.r_flag, )
 
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
@@ -94,24 +126,25 @@ class Ball(pygame.sprite.Sprite):
         point_r = font.render(f'{str(self.r_player_points)}', True, (0, 168, 107))
         point_r_coord = width // 1.08 - point_r.get_width() // 1.08
         screen.blit(point_r, (point_r_coord, 20))
+        if self.r_player_points < 3:
+            buff_img_rocket_bw_r()
+        else:
+            buff_img_rocket_r()
+        if self.r_player_points < 1.5:
+            buff_img_racket_bw_r()
+        else:
+            buff_img_racket_r()
 
-        # усиления для левого игрока
-        buff1_l = load_image('rocket_b_w.png')
-        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
-        screen.blit(buff1_l_scale, ((width / 3), 10))
+        if self.l_player_points < 3:
+            buff_img_rocket_bw_l()
+        else:
+            buff_img_rocket_l()
+        if self.l_player_points < 1.5:
+            buff_img_racket_bw_l()
+        else:
+            buff_img_racket_l()
 
-        buff1_l = load_image('racket_b_w.png')
-        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
-        screen.blit(buff1_l_scale, ((width / 3.7), 10))
 
-        # усиления для правого игрока
-        buff1_r = load_image('rocket_b_w.png')
-        buff1_r_scale = pygame.transform.scale(buff1_r, (75, 50))
-        screen.blit(buff1_r_scale, ((width / 1.75), 10))
-
-        buff1_l = load_image('racket_b_w.png')
-        buff1_l_scale = pygame.transform.scale(buff1_l, (75, 50))
-        screen.blit(buff1_l_scale, ((width / 1.58), 10))
 
 
 class Border(pygame.sprite.Sprite):
@@ -144,7 +177,11 @@ for i in range(1):
 clock = pygame.time.Clock()
 
 fps_count = 0
-
+fps_count2 = 0
+l_rak_up = -5
+l_rak_down = 5
+r_rak_up = -5
+r_rak_down = 5
 run = True
 while run:
 
@@ -156,14 +193,14 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_w]:
-        l_player.move_ip(0, -5)
+        l_player.move_ip(0, l_rak_up)
     if keys[pygame.K_s]:
-        l_player.move_ip(0, 5)
+        l_player.move_ip(0, l_rak_down)
     l_player.clamp_ip(screen_rect)
     if keys[pygame.K_UP]:
-        r_player.move_ip(0, -5)
+        r_player.move_ip(0, r_rak_up)
     if keys[pygame.K_DOWN]:
-        r_player.move_ip(0, 5)
+        r_player.move_ip(0, r_rak_down)
     r_player.clamp_ip(screen_rect)
     horizontal_borders = None
     vertical_borders = None
@@ -180,4 +217,5 @@ while run:
     pygame.draw.rect(screen, (255, 255, 255), l_player)
     pygame.draw.rect(screen, (255, 255, 255), r_player)
     fps_count += 1
+    fps_count2 += 1
     pygame.display.flip()
