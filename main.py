@@ -9,6 +9,7 @@ r_player = pygame.Rect(820, 10, 10, 180)
 
 x_v = start_screen()
 
+
 class Ball(pygame.sprite.Sprite):
 
     def __init__(self, radius, x, y):
@@ -28,6 +29,37 @@ class Ball(pygame.sprite.Sprite):
         self.l_b_flag = False
         self.r_flag = False
         self.l_flag = False
+
+    def draw_final_text(self, screen):
+        winner = ''
+        if self.r_player_count > self.l_player_count:
+            winner = 'правый'
+        else:
+            winner = 'левый'
+        outro_text = [f"Победил {winner} игрок"]
+        fon = pygame.transform.scale(load_image('fon.jpg'), (840, 640))
+        screen.blit(fon, (0, 0))
+        font = pygame.font.Font(None, 30)
+        text_coord = 50
+        for line in outro_text:
+            string_rendered = font.render(line, 1, pygame.Color('white'))
+            intro_rect = string_rendered.get_rect()
+            text_coord += 10
+            intro_rect.top = text_coord
+            intro_rect.x = 10
+            text_coord += intro_rect.height
+            screen.blit(string_rendered, intro_rect)
+
+    def terminate(self):
+        while True:
+            clock = pygame.time.Clock()
+            self.draw_final_text(screen)
+            pygame.display.flip()
+            clock.tick(50)
+            x.wait(3)
+            pygame.quit()
+            sys.exit()
+
 
     def update(self):
         global fps_count, fps_count2, r_rak_up, r_rak_down, l_rak_up, l_rak_down, run
@@ -72,8 +104,6 @@ class Ball(pygame.sprite.Sprite):
             self.vx = self.vx / 1.7
             self.l_b_flag = False
 
-
-
         self.time_count2 = fps_count2 / 50
         # баф для ракетки со стороны правого игрока
         if self.time_count >= 3 and self.r_player_points >= 1.5 and keys[pygame.K_l]:
@@ -105,6 +135,7 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
             self.l_player_count += 1
+            l = self.l_player_count
             if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 if self.vx <= 50:
                     self.vx = self.vx * 1.2
@@ -114,6 +145,7 @@ class Ball(pygame.sprite.Sprite):
         # реализация голов на левом краю
         if self.rect.centerx < 0:
             self.r_player_count += 1
+            r = self.r_player_count
             self.r_player_points += 0.5
             if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
                 if self.vx <= 50:
@@ -154,15 +186,13 @@ class Ball(pygame.sprite.Sprite):
         else:
             buff_img_racket_l()
         if self.l_player_count >= 30:
-            terminate()
-
+            self.terminate()
         if self.r_player_count >= 30:
-            terminate()
-
-
-
+            self.terminate()
 
 # класс для добавления стен, взят из уроков
+
+
 class Border(pygame.sprite.Sprite):
     def __init__(self, x1, y1, x2, y2):
         super().__init__(all_sprites)
