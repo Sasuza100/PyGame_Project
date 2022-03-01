@@ -154,10 +154,10 @@ class Ball(pygame.sprite.Sprite):
         else:
             buff_img_racket_l()
         qwer = threading.Event()
-        if self.l_player_count >= 3:
+        if self.l_player_count >= 30:
             terminate()
 
-        if self.r_player_count >= 3:
+        if self.r_player_count >= 30:
             terminate()
 
 
