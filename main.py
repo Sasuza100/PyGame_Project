@@ -1,5 +1,4 @@
 import pygame.transform
-import threading
 from start_screen import *
 from add_imgs import *
 
@@ -154,7 +153,6 @@ class Ball(pygame.sprite.Sprite):
             buff_img_racket_bw_l()
         else:
             buff_img_racket_l()
-        qwer = threading.Event()
         if self.l_player_count >= 30:
             terminate()
 
