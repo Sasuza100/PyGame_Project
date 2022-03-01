@@ -4,7 +4,7 @@ from start_screen import *
 from add_imgs import *
 
 pygame.init()
-
+sound = pygame.mixer.Sound("data/wow.wav")
 l_player = pygame.Rect(10, 10, 10, 180)
 r_player = pygame.Rect(820, 10, 10, 180)
 
@@ -37,8 +37,10 @@ class Ball(pygame.sprite.Sprite):
 
         if pygame.sprite.spritecollideany(self, horizontal_borders):
             self.vy = -self.vy
+            sound.play()
         if pygame.sprite.spritecollideany(self, vertical_borders):
             self.vx = -self.vx
+            sound.play()
 
         # баф для шара
         self.time_count = fps_count / 50
@@ -106,6 +108,9 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx > 840:
             self.l_player_points += 0.5
             self.l_player_count += 1
+            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+                if self.vx <= 50:
+                    self.vx = self.vx * 1.2
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
@@ -113,6 +118,9 @@ class Ball(pygame.sprite.Sprite):
         if self.rect.centerx < 0:
             self.r_player_count += 1
             self.r_player_points += 0.5
+            if (self.l_player_count + self.r_player_count) % 5 == 0 and self.l_player_count != 0 and self.r_player_count != 0:
+                if self.vx <= 50:
+                    self.vx = self.vx * 1.2
             self.rect.centerx = 420
             self.rect.centery = 320
             self.vy = -self.vy
@@ -145,35 +153,13 @@ class Ball(pygame.sprite.Sprite):
             buff_img_racket_bw_l()
         else:
             buff_img_racket_l()
-
+        qwer = threading.Event()
         if self.l_player_count >= 3:
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        terminate()
-                    elif event.type == pygame.KEYDOWN or \
-                            event.type == pygame.MOUSEBUTTONDOWN:
-                        # screen.fill((0, 0, 0))
-                        # point_r = font.render(f'Победил левый игрок! /n для продолжения нажмите любую кнопку', True, (0, 168, 107))
-                        # point_r_coord = width // 1.08 - point_r.get_width() // 1.08
-                        # screen.blit(point_r, (point_r_coord, 20))
-                        # print(1234)
-                        return terminate()
+            terminate()
+
         if self.r_player_count >= 3:
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        terminate()
-                    elif event.type == pygame.KEYDOWN or \
-                            event.type == pygame.MOUSEBUTTONDOWN:
-                        # screen.fill((0, 0, 0))
-                        # font = pygame.font.Font(None, 50)
-                        # text = font.render(f'asfafafafafs : asfafsfafawfsfwafsfaw', True,
-                        #                    (255, 255, 255))
-                        # text_x = width // 2 - text.get_width() // 2
-                        # screen.blit(text, (text_x, 20))
-                        # print(123)
-                        return terminate()
+            terminate()
+
 
 
 
@@ -214,39 +200,40 @@ l_rak_down = 5
 r_rak_up = -5
 r_rak_down = 5
 run = True
-while run:
+if __name__ == '__main__':
+    while run:
 
-    screen.fill((0, 0, 0))
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        screen.fill((0, 0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
-    keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_w]:
-        l_player.move_ip(0, l_rak_up)
-    if keys[pygame.K_s]:
-        l_player.move_ip(0, l_rak_down)
-    l_player.clamp_ip(screen_rect)
-    if keys[pygame.K_UP]:
-        r_player.move_ip(0, r_rak_up)
-    if keys[pygame.K_DOWN]:
-        r_player.move_ip(0, r_rak_down)
-    r_player.clamp_ip(screen_rect)
-    horizontal_borders = None
-    vertical_borders = None
-    horizontal_borders = pygame.sprite.Group()
-    vertical_borders = pygame.sprite.Group()
-    Border(20, l_player.top, 20, l_player.top + 180)
-    Border(820, r_player.top, 820, r_player.top + 180)
-    Border(5, 5, width - 5, 5)
-    Border(5, height - 5, width - 5, height - 5)
+        if keys[pygame.K_w]:
+            l_player.move_ip(0, l_rak_up)
+        if keys[pygame.K_s]:
+            l_player.move_ip(0, l_rak_down)
+        l_player.clamp_ip(screen_rect)
+        if keys[pygame.K_UP]:
+            r_player.move_ip(0, r_rak_up)
+        if keys[pygame.K_DOWN]:
+            r_player.move_ip(0, r_rak_down)
+        r_player.clamp_ip(screen_rect)
+        horizontal_borders = None
+        vertical_borders = None
+        horizontal_borders = pygame.sprite.Group()
+        vertical_borders = pygame.sprite.Group()
+        Border(20, l_player.top, 20, l_player.top + 180)
+        Border(820, r_player.top, 820, r_player.top + 180)
+        Border(5, 5, width - 5, 5)
+        Border(5, height - 5, width - 5, height - 5)
 
-    all_sprites.draw(screen)
-    all_sprites.update()
-    clock.tick(50)
-    pygame.draw.rect(screen, (255, 255, 255), l_player)
-    pygame.draw.rect(screen, (255, 255, 255), r_player)
-    fps_count += 1
-    fps_count2 += 1
-    pygame.display.flip()
+        all_sprites.draw(screen)
+        all_sprites.update()
+        clock.tick(50)
+        pygame.draw.rect(screen, (255, 255, 255), l_player)
+        pygame.draw.rect(screen, (255, 255, 255), r_player)
+        fps_count += 1
+        fps_count2 += 1
+        pygame.display.flip()
