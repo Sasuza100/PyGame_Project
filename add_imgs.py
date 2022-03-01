@@ -2,6 +2,8 @@ from pygame import *
 from start_screen import load_image
 size = width, height = 840, 640
 screen = display.set_mode(size)
+
+
 def buff_img_rocket_bw_l():
     buff1_l = image.load('data/rocket_b_w.png')
     buff1_l_scale = transform.scale(buff1_l, (75, 50))
